@@ -1,39 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider, AuthContext } from "./context/AuthContext";
-import Login from "./pages/Login";
-import Customer from "./pages/Customer";
-import UserManagementPage from "./pages/UserManagement";
+import { AuthProvider } from "./context/AuthContext";
+import LoginPage from "./pages/LoginPage";
+import CustomerPage from "./pages/CustomerPage";
+import AddCustomerPage from "./pages/AddCustomerPage";
+import UserManagementPage from "./pages/UserManagementPage";
+import CustomerDetailPage from "./pages/CustomerDetailPage"; // Import komponen halaman detail baru
+import './App.css';
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <AuthContext.Consumer>
-          {({ user, loading }) => {
-            if (loading) return <div>Loading...</div>;
-            return (
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route
-                  path="/customer"
-                  element={user ? <Customer /> : <Login />}
-                />
-                <Route
-                  path="/user-management"
-                  element={
-                    user && user.role === "Admin" ? (
-                      <UserManagementPage />
-                    ) : (
-                      <Login />
-                    )
-                  }
-                />
-                <Route path="/" element={user ? <Customer /> : <Login />} />
-              </Routes>
-            );
-          }}
-        </AuthContext.Consumer>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/customer" element={<CustomerPage />} />
+          <Route path="/customer/add" element={<AddCustomerPage />} />
+          <Route path="/customer/:id" element={<CustomerDetailPage />} /> {/* Rute baru untuk detail pelanggan */}
+          <Route path="/user-management" element={<UserManagementPage />} />
+          <Route path="/" element={<LoginPage />} />
+        </Routes>
       </AuthProvider>
     </Router>
   );

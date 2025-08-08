@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   createCustomer,
   getCustomers,
-  getStatusOptions,
+  getStatusOptions, // Anda tidak perlu mengimpor ini jika tidak digunakan.
   getCustomerById,
 } = require("../controllers/customerController");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -14,13 +14,6 @@ const {
   validate,
 } = require("../middleware/validateInput");
 
-// Rute untuk mendapatkan opsi status (GET /api/customer/status)
-router.get("/status", authMiddleware(["Sales", "Admin"]), getStatusOptions);
-
-// Rute untuk mendapatkan semua customer (GET /api/customer)
-router.get("/", authMiddleware(["Sales", "Admin"]), getCustomers);
-
-// Rute untuk membuat customer (POST /api/customer)
 router.post(
   "/",
   authMiddleware(["Sales"]),
@@ -28,8 +21,8 @@ router.post(
   validate,
   createCustomer
 );
-
-// Rute untuk mendapatkan detail customer berdasarkan ID (GET /api/customer/:id)
+router.get("/", authMiddleware(["Sales", "Admin"]), getCustomers);
+// Rute untuk detail pelanggan diletakkan setelah rute-rute lain.
 router.get("/:id", authMiddleware(["Sales", "Admin"]), getCustomerById);
 
 module.exports = router;

@@ -4,51 +4,50 @@ import { AuthContext } from "../context/AuthContext";
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       await login(email, password);
-      console.log("Login successful, redirecting..."); // Debug
       navigate("/customer");
-    } catch (error) {
-      console.error("Login failed:", error); // Debug
-      setError(error);
+    } catch (err) {
+      setError(err);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
+    <div className="login-container">
+      <h2 className="login-title">Login</h2>
+      {error && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">{error}</div>}
+      <form onSubmit={handleSubmit} className="login-form">
+        <div>
+          <label className="form-label">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Password</label>
+        <div>
+          <label className="form-label">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
             required
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="login-btn"
         >
           Login
         </button>

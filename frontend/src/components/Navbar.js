@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -13,24 +15,32 @@ const Navbar = () => {
 
   if (!user) return null;
 
+  const getMenuItemClasses = (path) => {
+    return `nav-link ${location.pathname === path ? 'active' : ''}`;
+  };
+
   return (
-    <nav className="bg-blue-600 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-lg font-bold">
-          OPTrack
-        </Link>
-        <div>
+    <nav className="navbar">
+      <div className="container navbar-container">
+        <div className="navbar-menu">
+          <img src="/logoenetwoq.webp" alt="eNetwoq Logo" className="logo" />
+          <Link to="/" className={getMenuItemClasses("/")}>
+            Home
+          </Link>
           {["Sales", "Admin"].includes(user.role) && (
-            <Link to="/customer" className="text-white mr-4">
+            <Link to="/customer" className={getMenuItemClasses("/customer")}>
               Customer
             </Link>
           )}
           {user.role === "Admin" && (
-            <Link to="/user-management" className="text-white mr-4">
-              User Management
+            <Link to="/user-management" className={getMenuItemClasses("/user-management")}>
+              Training
             </Link>
           )}
-          <button onClick={handleLogout} className="text-white">
+        </div>
+        <div className="profile-section">
+          <FaUserCircle className="user-icon"/>
+          <button onClick={handleLogout} className="nav-logout-btn">
             Logout
           </button>
         </div>

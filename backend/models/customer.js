@@ -1,3 +1,5 @@
+// frontend/src/models/customer.js
+
 const pool = require("../config/database");
 
 const Customer = {
@@ -30,7 +32,7 @@ const Customer = {
 
   async findBySalesId(idSales, statusFilter) {
     const query = `
-      SELECT c.*, sc.nmStatCustomer, s.nmSales
+      SELECT c.*, c.tglInput, sc.nmStatCustomer, s.nmSales
       FROM customer c
       JOIN statcustomer sc ON c.idStatCustomer = sc.idStatCustomer
       JOIN sales s ON c.idSales = s.idSales
@@ -43,7 +45,7 @@ const Customer = {
 
   async findAll(statusFilter) {
     const query = `
-      SELECT c.*, sc.nmStatCustomer, s.nmSales
+      SELECT c.*, c.tglInput, sc.nmStatCustomer, s.nmSales
       FROM customer c
       JOIN statcustomer sc ON c.idStatCustomer = sc.idStatCustomer
       JOIN sales s ON c.idSales = s.idSales
@@ -60,6 +62,19 @@ const Customer = {
     );
     return rows;
   },
+  
+  // FUNGSI BARU: Mengambil satu data pelanggan berdasarkan ID
+  async findById(id) {
+    const query = `
+      SELECT c.*, sc.nmStatCustomer, s.nmSales
+      FROM customer c
+      JOIN statcustomer sc ON c.idStatCustomer = sc.idStatCustomer
+      JOIN sales s ON c.idSales = s.idSales
+      WHERE c.idCustomer = ?
+    `;
+    const [rows] = await pool.query(query, [id]);
+    return rows[0]; // Mengembalikan satu objek pelanggan
+  }
 };
 
 module.exports = Customer;

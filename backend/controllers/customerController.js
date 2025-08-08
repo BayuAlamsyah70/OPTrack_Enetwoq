@@ -1,3 +1,5 @@
+// frontend/src/controllers/customerController.js
+
 const Customer = require("../models/customer");
 const pool = require("../config/database");
 
@@ -10,15 +12,13 @@ const createCustomer = async (req, res) => {
       customerData,
       "userId:",
       userId
-    ); // Debug
-
-    // Fetch idSales from sales table based on userId
+    );
     const [sales] = await pool.query(
       "SELECT idSales FROM sales WHERE userId = ?",
       [userId]
     );
     if (!sales.length) {
-      console.log("No Sales record found for userId:", userId); // Debug
+      console.log("No Sales record found for userId:", userId);
       return res
         .status(400)
         .json({ error: "No Sales record found for this user" });
@@ -37,15 +37,14 @@ const getCustomers = async (req, res) => {
   try {
     const userId = req.user.id;
     const role = req.user.role;
-    const statusFilter = req.query.status; // Get status filter from query parameter
-    console.log("Fetching customers for user:", { userId, role, statusFilter }); // Debug
+    const statusFilter = req.query.status;
+    console.log("Fetching customers for user:", { userId, role, statusFilter });
 
     let customers;
     if (role === "Admin" || role === "Sales") {
-      // Admin dan Sales melihat semua customer, dengan filter status opsional
       customers = await Customer.findAll(statusFilter);
     } else {
-      console.log("Unauthorized role:", role); // Debug
+      console.log("Unauthorized role:", role);
       return res.status(403).json({ error: "Unauthorized access" });
     }
 
@@ -66,4 +65,19 @@ const getStatusOptions = async (req, res) => {
   }
 };
 
-module.exports = { createCustomer, getCustomers, getStatusOptions };
+// FUNGSI BARU: Mengambil detail pelanggan berdasarkan ID
+const getCustomerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const customer = await Customer.findById(id);
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+    res.json(customer);
+  } catch (error) {
+    console.error("Error fetching customer by ID:", error);
+    res.status(500).json({ error: error.sqlMessage || "Server error" });
+  }
+};
+
+module.exports = { createCustomer, getCustomers, getStatusOptions, getCustomerById };
