@@ -22,7 +22,10 @@ const LoginForm = () => {
 
   return (
     <div className="login-container">
-      <h2 className="login-title">Login</h2>
+      <div className="login-header">
+        <img src="/logoenetwoq.webp" alt="eNetwoq Logo" className="login-logo"/>
+        <h2 className="login-title">LOGIN</h2>
+      </div>
       {error && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">{error}</div>}
       <form onSubmit={handleSubmit} className="login-form">
         <div>
@@ -33,6 +36,7 @@ const LoginForm = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="form-input"
             required
+            placeholder="User Email"
           />
         </div>
         <div>
@@ -43,6 +47,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="form-input"
             required
+            placeholder="User Password"
           />
         </div>
         <button
