@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+// src/components/CustomerDetail.js
+
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { FaArrowLeft, FaDownload, FaUserCircle, FaHome, FaUsers } from "react-icons/fa";
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { PDFDownloadLink } from '@react-pdf/renderer'; // PERUBAHAN: Import PDFDownloadLink
+import PdfTemplate from './pdfTemplate'; // Import template PDF yang baru
 
 const CustomerDetail = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +15,7 @@ const CustomerDetail = () => {
   const [customer, setCustomer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const contentRef = useRef();
+  // PERUBAHAN: Hapus useRef, karena tidak lagi mengambil screenshot
 
   useEffect(() => {
     const fetchCustomerDetail = async () => {
@@ -34,22 +36,8 @@ const CustomerDetail = () => {
     fetchCustomerDetail();
   }, [user, id]);
 
-  const handleExportPdf = () => {
-    const input = contentRef.current;
-    if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgProps= pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`Laporan_Pelanggan_${customer.nmCustomer}.pdf`);
-      });
-    }
-  };
-
+  // PERUBAHAN: Hapus fungsi handleExportPdf
+  
   if (loading) return <div className="text-center mt-20">Loading...</div>;
   if (error) return <div className="text-center mt-20 text-red-500">{error}</div>;
   if (!customer) return <div className="text-center mt-20">Data pelanggan tidak ditemukan.</div>;
@@ -58,15 +46,23 @@ const CustomerDetail = () => {
     <div className="customer-detail-container">
       <div className="detail-header">
         <div>
-          <h2 className="detail-title">DATA PELANGGAN</h2>
-          <p className="detail-subtitle">Laporan Informasi Pelanggan</p>
+          <h2 className="detail-title">DETAIL PELANGGAN</h2>
+          <p className="detail-subtitle">Informasi Lengkap Pelanggan</p>
         </div>
-        <button onClick={handleExportPdf} className="export-pdf-btn">
-          <FaDownload /> Export to PDF
-        </button>
-      </div>
 
-      <div ref={contentRef} className="detail-content-to-pdf">
+        {/* PERUBAHAN: Tombol Export diganti dengan PDFDownloadLink */}
+        <PDFDownloadLink
+          document={<PdfTemplate customer={customer} />}
+          fileName={`Laporan_Pelanggan_${customer.nmCustomer}.pdf`}
+          className="export-pdf-btn"
+        >
+          {({ blob, url, loading, error }) =>
+            loading ? 'Membuat PDF...' : <><FaDownload /> Export to PDF</>
+          }
+        </PDFDownloadLink>
+      </div>
+      
+      <div className="detail-content"> 
         <div className="info-cards-container">
           <div className="info-card">
             <h3 className="info-card-title">
@@ -81,7 +77,7 @@ const CustomerDetail = () => {
               <span className="info-value">{customer.emailCustomer}</span>
             </div>
             <div className="info-group">
-              <span className="info-label">Mobile Phone :</span>
+              <span className="info-label">Telepon :</span>
               <span className="info-value">{customer.mobileCustomer || "-"}</span>
             </div>
           </div>
@@ -100,7 +96,15 @@ const CustomerDetail = () => {
             </div>
             <div className="info-group">
               <span className="info-label">Status :</span>
-              <span className="info-status">{customer.nmStatCustomer}</span>
+              <span 
+                className={`info-status ${
+                  customer.nmStatCustomer === 'Active' 
+                  ? 'status-active' 
+                  : 'status-prospect'
+                }`}
+              >
+                {customer.nmStatCustomer}
+              </span>
             </div>
           </div>
         </div>
@@ -114,7 +118,7 @@ const CustomerDetail = () => {
       </div>
       
       <button onClick={() => navigate(-1)} className="back-btn">
-        <FaArrowLeft /> Back
+        <FaArrowLeft /> Kembali
       </button>
     </div>
   );

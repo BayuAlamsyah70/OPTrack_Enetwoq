@@ -1,3 +1,5 @@
+/* src/App.css */
+
 /* Gaya CSS untuk seluruh aplikasi */
 body {
   font-family: sans-serif;
@@ -80,7 +82,7 @@ body {
 
 /* ===================== NAVBAR ===================== */
 .navbar {
-  background-color: white; /* Navbar putih sesuai desain baru */
+  background-color: white;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -102,7 +104,7 @@ body {
 }
 
 .nav-link {
-  color: #374151; /* Warna teks gelap */
+  color: #374151;
   font-weight: 600;
   text-decoration: none;
   padding: 0.5rem 0.75rem;
@@ -454,228 +456,184 @@ body {
   background-color: #b37110;
 }
 
-/* Gaya untuk tampilan di web */
-.web-view {
-  display: block;
-}
 
-.info-cards-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .info-cards-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.info-card {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.info-card-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1f2937;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.info-icon {
-  color: #2563eb;
-}
-
-.info-group {
-  display: flex;
-  margin-bottom: 0.5rem;
-}
-
-.info-label {
-  font-weight: 500;
-  color: #4b5563;
-  width: 120px;
-}
-
-.info-value {
-  color: #1f2937;
-}
-
-.info-status {
-  background-color: #22c55e;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.description-card {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.description-text {
-  color: #4b5563;
-  line-height: 1.5;
-}
-
-/* ===================== CUSTOMER DETAIL ===================== */
+/* ===================== CUSTOMER DETAIL (UPDATED & MERGED) ===================== */
 .customer-detail-container {
-  max-width: 1280px;
-  margin: 2.5rem auto;
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+  max-width: 1024px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 1rem;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .detail-title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
+  margin: 0;
 }
 
 .detail-subtitle {
+  font-size: 14px;
   color: #6b7280;
-  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.export-pdf-btn, .back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .export-pdf-btn {
   background-color: #d18616;
   color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: background-color 150ms ease-in-out;
 }
 
 .export-pdf-btn:hover {
   background-color: #b37110;
 }
 
-.detail-content-to-pdf {
-  padding: 1rem 0;
+.back-btn {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  margin-top: 24px;
+}
+
+.back-btn:hover {
+  background-color: #d1d5db;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .info-cards-container {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .info-cards-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
-.info-card {
+.info-card, .description-card {
   background-color: #f9fafb;
   border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 20px;
 }
 
 .info-card-title {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
+  gap: 10px;
+  font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #374151;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.75rem;
-  margin-bottom: 1rem;
 }
 
 .info-icon {
-  color: #2563eb;
+  color: #3b82f6;
 }
 
 .info-group {
   display: flex;
-  margin-bottom: 0.5rem;
+  /* PERUBAHAN UTAMA ADA DI SINI: untuk menyejajarkan label dan value */
+  align-items: center; 
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.info-group:last-child {
+  margin-bottom: 0;
 }
 
 .info-label {
-  font-weight: 500;
+  font-weight: 600;
   color: #4b5563;
-  width: 120px;
+  width: 100px;
+  flex-shrink: 0;
 }
 
 .info-value {
   color: #1f2937;
 }
 
-.info-status {
-  background-color: #22c55e;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.description-card {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
 .description-text {
+  font-size: 14px;
   color: #4b5563;
-  line-height: 1.5;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.back-btn {
-  background-color: #d18616;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  text-decoration: none;
+.info-status {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  cursor: pointer;
-  transition: background-color 150ms ease-in-out;
+  justify-content: center;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
 }
 
-.back-btn:hover {
-  background-color: #b37110;
+.status-active {
+  background-color: #4CAF50; /* Hijau */
+}
+
+.status-prospect {
+  background-color: #FFC107; /* Kuning */
+}
+
+/* GAYA UNTUK STATUS (BARU & DIPERBAIKI) */
+.info-status {
+  /* Untuk membuat teks di tengah oval */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Style visual lainnya */
+  padding: 4px 14px;
+  border-radius: 9999px; /* Trik untuk membuat bentuk pil/oval sempurna */
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Warna untuk status Active */
+.status-active {
+  background-color: #4CAF50; /* Hijau */
+}
+
+/* Warna untuk status Prospect */
+.status-prospect {
+  background-color: #FFC107; /* Kuning */
 }
